@@ -98,7 +98,9 @@ export function useComponentGenerator(): UseComponentGeneratorReturn {
 
   const clearAll = useCallback(() => {
     setComponents([]);
+    setPromptHistory([]);
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(HISTORY_KEY);
   }, []);
 
   return { components, promptHistory, isLoading, error, generate, removeComponent, clearAll };

@@ -1,0 +1,29 @@
+{
+  "skill_name": "commit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "초기 프로젝트 setup 파일들이 워킹 트리에 있습니다. package.json, tsconfig.json, vite.config.ts, README.md, .gitignore, src/, public/ 등이 모두 untracked 상태입니다. 이들을 커밋해주세요.",
+      "expected_output": "chore: 초기 프로젝트 설정이라는 한국어 커밋 메시지로 모든 파일이 커밋되어야 합니다.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "새로운 버튼 컴포넌트(Button.tsx)를 src/components/에 추가했고, 이를 사용하는 예제(Example.tsx)도 추가했습니다. 또한 Button 컴포넌트에 대한 유닛 테스트(Button.test.tsx)도 작성했습니다. 이 변경사항을 커밋해주세요.",
+      "expected_output": "feat(components): 버튼 컴포넌트 추가라는 메시지로 컴포넌트, 예제, 테스트가 한 커밋으로 묶여야 합니다.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "대시보드 페이지의 데이터 로딩 부분에서 발생하던 race condition을 수정했습니다. useEffect 의존성 배열과 cleanup 함수를 수정했습니다. 이를 커밋해주세요.",
+      "expected_output": "fix(dashboard): 데이터 로딩 race condition 수정이라는 메시지로 커밋되어야 합니다.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "여러 파일에서 반복되던 날짜 포맷팅 로직을 utils/dateFormatter.ts로 추출했습니다. 기존 코드에서 이 유틸을 사용하도록 리팩토링했습니다. 기능 변화는 없습니다. 이를 커밋해주세요.",
+      "expected_output": "refactor: 날짜 포맷팅 로직을 유틸로 추출이라는 메시지로 커밋되어야 합니다.",
+      "files": []
+    }
+  ]
+}

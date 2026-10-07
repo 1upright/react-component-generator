@@ -648,6 +648,11 @@
   line-height: 1.65;
 }
 
+.code-block--streaming {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
 @media (max-width: 1080px) {
   .app {
     padding: 18px;

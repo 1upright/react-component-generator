@@ -18,10 +18,28 @@ function App() {
     anthropic: false,
     google: false,
   });
-  const { components, isLoading, error, generate, removeComponent, clearAll } =
+  const { components, promptHistory, isLoading, error, generate, removeComponent, clearAll } =
     useComponentGenerator();
 
   useEffect(() => {
+    try {
+      const stored = localStorage.getItem('rcg_provider');
+      if (stored) {
+        setProvider(stored as Provider);
+      }
+    } catch (err) {
+      console.error('Failed to load provider from localStorage:', err);
+    }
+
+    try {
+      const stored = localStorage.getItem('rcg_api_key');
+      if (stored) {
+        setApiKey(stored);
+      }
+    } catch (err) {
+      console.error('Failed to load API key from localStorage:', err);
+    }
+
     fetch('/api/config')
       .then((res) => res.json())
       .then((data) => setEnvKeys(data.envKeys))
@@ -40,7 +58,12 @@ function App() {
 
   const handleProviderChange = (newProvider: Provider) => {
     setProvider(newProvider);
-    setApiKey('');
+    localStorage.setItem('rcg_provider', newProvider);
+  };
+
+  const handleApiKeyChange = (value: string) => {
+    setApiKey(value);
+    localStorage.setItem('rcg_api_key', value);
   };
 
   const activeProvider = PROVIDER_CONFIG[provider].label;
@@ -68,7 +91,7 @@ function App() {
 
       <main className="workspace">
         <section className="composer-panel" aria-label="컴포넌트 생성">
-          <PromptInput onGenerate={handleGenerate} isLoading={isLoading} />
+          <PromptInput onGenerate={handleGenerate} isLoading={isLoading} promptHistory={promptHistory} />
         </section>
 
         <aside className="settings-panel" aria-label="실행 설정">
@@ -99,7 +122,7 @@ function App() {
                 id="api-key"
                 type={showKey ? 'text' : 'password'}
                 value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
+                onChange={(e) => handleApiKeyChange(e.target.value)}
                 placeholder={
                   hasEnvKey
                     ? '서버 키 사용 중 (직접 입력으로 덮어쓰기 가능)'

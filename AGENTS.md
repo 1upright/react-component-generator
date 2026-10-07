@@ -21,11 +21,14 @@ bun run server          # API 서버만 실행 (개발용 watch 모드)
 2. **React-live 코드 정규화**: `ensureRenderCall`로 자동 주입된 `render()` 호출을 반드시 포함시키고, 코드 생성 단계에서 stripCodeFences → ensureRenderCall 순서대로 처리합니다. (generator.ts:5-24, index.ts:188)
 3. **API 키는 Boolean으로만 노출**: 서버가 `/api/config`에서 환경변수 키 존재 여부를 Boolean으로만 반환하고, 실제 키 값은 서버 메모리에 유지합니다. (index.ts:147-157)
 4. **에러 상태 코드 매핑**: 503/429 같은 API 에러는 사용자 친화적 한국어 메시지로 변환하여 반환합니다. (index.ts:194-206)
+5. **민감 파일 차단 유지**: `.claude/settings.json`의 `permissions.deny`로 `.env`, `.env.local`, `*credential*`, `*secret*`, `*.pem`, `*.key` 등 민감 파일의 읽기/수정을 차단합니다. 새로운 종류의 민감 파일이 생기면 deny 목록에 함께 추가합니다. (`.env.example`은 템플릿이므로 예외)
 
 ### Don'ts
 1. **Client-side에 API 키 노출 금지**: env.json이나 config.ts에 실제 API 키를 절대 포함시키지 마십시오. 클라이언트는 선택적으로 입력하거나 서버 환경변수를 사용합니다. (index.ts:64-66)
 2. **react-live 코드에 TypeScript 문법 사용 금지**: type 주석, interface, as 타입 캐스트를 생성된 코드에 포함시키지 마십시오. 순수 JavaScript만 사용합니다. (index.ts:20)
 3. **CSS 모듈이나 import 문법 사용 금지**: 생성된 컴포넌트는 inline styles만 사용합니다. 외부 CSS import는 react-live에서 작동하지 않습니다. (index.ts:10-11)
+
+4. **민감 파일 접근 금지**: `.env`, credential, secret, 개인 키(`*.pem`, `*.key`), SSH/AWS 설정 파일을 읽거나 수정하거나 출력하지 마십시오. Bash(`cat`, `type`, `Get-Content` 등)로 우회하는 것도 금지하며, 필요한 값은 사용자에게 직접 요청합니다. (.claude/settings.json permissions.deny)
 
 ## Project Context
 

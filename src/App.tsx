@@ -58,7 +58,9 @@ function App() {
 
   const handleProviderChange = (newProvider: Provider) => {
     setProvider(newProvider);
+    setApiKey('');
     localStorage.setItem('rcg_provider', newProvider);
+    localStorage.removeItem('rcg_api_key');
   };
 
   const handleApiKeyChange = (value: string) => {
